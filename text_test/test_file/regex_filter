@@ -1,0 +1,22 @@
+filter {
+	name: test
+	item {
+		name: match_value
+		type:regex
+		pattern: FW log.*
+		function: match()
+	}
+	item {
+		name: count_value
+		type:regex
+		pattern: FW log:name=(\S+);time=(\S+);action=(\S+);value=(\S+)
+		function: count(3)
+	}
+	item {
+		name: range_value
+		type:regex
+		pattern: FW log:name=(\S+);time=(\S+);action=(\S+);value=(\S+)
+		function:range(2,6)
+	}
+	expect: match_value & count_value & range_value
+}

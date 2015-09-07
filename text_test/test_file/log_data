@@ -1,0 +1,19 @@
+May 13 00:57:05 docker login[1016]: pam_mail(login:session): pam_putenv: delete non-existent entry; MAIL
+May 13 00:57:05 docker login[1016]: pam_unix(login:session): session closed for user ubuntu
+May 13 00:57:05 docker login[1016]: PAM 2 more authentication failures; logname=LOGIN uid=0 euid=0 tty=/dev/tty1 ruser= rhost=  user=root
+May 13 00:57:17 docker login[1047]: pam_unix(login:session): session opened for user ubuntu by LOGIN(uid=0)
+May 13 00:57:40 docker passwd[1153]: pam_unix(passwd:chauthtok): new password not acceptable
+May 13 00:57:49 docker su[1154]: Successful su for root by ubuntu
+May 13 00:57:49 docker su[1154]: + /dev/tty1 ubuntu:root
+Jul  6 00:43:29 docker rsyslogd-2039: Could no open output pipe '/dev/xconsole': No such file or directory [try http://www.rsyslog.com/e/2039 ]
+Aug 25 14:32:33 docker ntpdate[1996]: 202.112.29.82 rate limit response from server.
+Aug 25 14:32:45 docker ntpdate[1996]: adjust time server 202.118.1.81 offset 0.001631 sec
+Sep  6 15:06:40 docker sshd[2065]: Accepted password for root from 192.168.228.1 port 2354 ssh2
+Sep  6 15:06:40 docker sshd[2065]: pam_unix(sshd:session): session opened for user root by (uid=0)
+Sep  6 15:05:15 docker ntpd[1477]: ntp_io: estimated max descriptors: 1024, initial socket boundary: 16
+Sep  6 15:05:15 docker ntpd[1477]: unable to bind to wildcard address 0.0.0.0 - another process may be running - EXITING
+Sep  6 15:05:14 docker cron[1346]: (CRON) INFO (pidfile fd = 3)
+Sep  6 15:05:14 docker cron[1412]: (CRON) STARTUP (fork ok)
+Sep  6 15:05:14 docker cron[1412]: (CRON) INFO (Running @reboot jobs)
+Sep  6 15:16:40 docker sshd[2065]: Accepted password for root from 192.168.0.123 port 2355 ssh2
+Sep  6 15:16:40 docker sshd[2065]: pam_unix(sshd:session): session opened for user root by (uid=0)

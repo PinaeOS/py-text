@@ -1,0 +1,9 @@
+Filesystem                  1K-blocks    Used Available Use% Mounted on
+/dev/mapper/ubuntu--vg-root   9423976 3689800   5232416  42% /
+none                                4       0         4   0% /sys/fs/cgroup
+udev                           490276       4    490272   1% /dev
+tmpfs                          100304     588     99716   1% /run
+none                             5120       0      5120   0% /run/lock
+none                           501516       0    501516   0% /run/shm
+none                           102400       0    102400   0% /run/user
+/dev/sda1                      240972   39434    189097  18% /boot

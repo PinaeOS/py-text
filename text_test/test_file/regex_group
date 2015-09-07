@@ -1,0 +1,15 @@
+group{
+	name:FW
+	pattern:FW log:name=(\S+);time=(\d+-\d+-\d+\s+\d+:\d+:\d+);action=(\S+);value=(.*)
+	pattern:PIX log:name=(\S+);time=(\d+-\d+-\d+\s+\d+:\d+:\d+);action=(\S+);value=(.*)
+	pattern:ASA type=(\S+);content=(.*)
+}
+group{
+	name:WAF
+	pattern:WAF log:name=(.*);time=(\d+-\d+-\d+\s+\d+:\d+:\d+);action=(\S+);value=(.*)
+	pattern:MOD_SEC (.*) event_time (\d+-\d+-\d+\s+\d+:\d+:\d+)
+}
+group{
+	name:IDS
+	pattern:IDS log:name=(\S+);time=(\d+-\d+-\d+\s+\d+:\d+:\d+);action=(\S+);value=(.*)
+}

@@ -1,0 +1,58 @@
+map{
+	type:regex
+	pattern:FW log:name=(\S+);time=(\S+);action=(\S+);value=(\S+)
+	item{
+		index:1
+		key:name
+	}
+	item{
+		index:2
+		key:time
+	}
+	item{
+		index:3
+		key: action
+	}
+	item{
+		index:4
+		key:value
+	}
+}
+map{
+	type:split
+	match:startswith(WAF)
+	pattern:;
+	item{
+		index:1
+		key:type
+	}
+	item{
+		index:2
+		key:name
+	}
+	item{
+		index:3
+		key:time
+	}
+	item{
+		index:4
+		key: action
+	}
+	item{
+		index:5
+		key:value
+	}
+}
+map{
+	type:keyword
+	match:startswith(rule)
+	item{
+		key:service
+	}
+	item{
+		key:protocol
+	}
+	item{
+		key:dst-port
+	}
+}
