@@ -20,10 +20,12 @@ def awk(target, pattern, separator, action):
     
     '''
     
+    text = grep.grep(target, pattern)
+    if text == None:
+        return None
+    
     if string_utils.is_blank(separator):
         separator = ' '
-    
-    text = grep.grep(target, pattern)
     
     result = []
         
@@ -39,7 +41,7 @@ def awk(target, pattern, separator, action):
                         temp_line.append(split_text[column])
                 result.append(temp_line)
             elif type(action) == types.FunctionType:
-                temp_line = action(temp_line)
+                temp_line = action(split_text)
                 if temp_line != None and type(temp_line) == types.ListType:
                     result.append(temp_line)
                 

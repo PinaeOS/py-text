@@ -19,10 +19,14 @@ def grep(target, pattern, number = False, model = 'e'):
               print grep.grep(list, '^(?!.*female).*$', ':', [1])
               output: ['huiyugeng', 'zhuzhu']
     '''
+
+    text = text_file.read(target)
+    if text == None:
+        return None
+    
     line_num = 1;
     result = []
     
-    text = text_file.read(target)
     for line_text in text:
         if __match(line_num, line_text, model, pattern):
             result.append(__print(line_num, line_text, number))
@@ -32,6 +36,9 @@ def grep(target, pattern, number = False, model = 'e'):
     return result
 
 def __match(line_num, line_text, model, pattern):
+    
+    if string_utils.is_blank(line_text):
+        return False
     
     if string_utils.is_blank(pattern):
         return True

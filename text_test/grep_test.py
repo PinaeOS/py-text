@@ -31,6 +31,12 @@ class GrepTest(unittest.TestCase):
         self.assertTrue(string_utils.startswith(group_data[4], '12'))
         self.assertTrue(string_utils.startswith(group_data[5], '19'))
         
+        group_data = grep.grep(log_list, None, True, 'e')
+        self.assertEqual(len(group_data), 19)
+        
+        group_data = grep.grep(None, None)
+        self.assertEqual(group_data, None)
+        
 if __name__ == '__main__':
     # import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

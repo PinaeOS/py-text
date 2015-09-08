@@ -4,6 +4,7 @@ import types
 
 import text_file
 import grep
+from text import string_utils
 
 def sed(target, pattern, match_model, replace, operate, output):
     '''
@@ -18,6 +19,8 @@ def sed(target, pattern, match_model, replace, operate, output):
     
     '''
     text = text_file.read(target)
+    if text == None:
+        return None
     
     result = []
     
@@ -26,15 +29,20 @@ def sed(target, pattern, match_model, replace, operate, output):
 
         if grep.__match(line_num, line, match_model, pattern):
             if operate == 's':
-                result.append(replace)
+                if string_utils.is_not_blank(replace):
+                    result.append(replace)
+                else:
+                    result.append(line)
             elif operate == 'd':
                 continue
             elif operate == 'i':
-                result.append(replace)
+                if string_utils.is_not_blank(replace):
+                    result.append(replace)
                 result.append(line)
             elif operate == 'a':
                 result.append(line)
-                result.append(replace)
+                if string_utils.is_not_blank(replace):
+                    result.append(replace)
         else:
             result.append(line)
         line_num = line_num + 1
@@ -47,7 +55,7 @@ def sed(target, pattern, match_model, replace, operate, output):
         if type(target) == types.StringType:
             text_file.write_file(target, output_result)
     elif output == 'rl':
-        return text
+        return result
     elif output == 'rt':
         return output_result
     
