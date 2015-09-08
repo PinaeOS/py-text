@@ -2,6 +2,7 @@
 
 import unittest
 from text import string_utils
+from text import text_file
 
 class StringUtilsTest(unittest.TestCase):
     
@@ -230,12 +231,36 @@ class StringUtilsTest(unittest.TestCase):
     
     def test_replace_each(self):
         self.assertEqual(string_utils.replace_each(None, ['one'], ['One']), None)
-        self.assertEqual(string_utils.replace_each('one world one dream', ['one', 'world', 'dream'], ['One', 'World', 'Dream']), 
-                         'One World One Dream')
-        self.assertEqual(string_utils.replace_each('one world one dream', [None, 'world', 'dream'], ['One', 'World', 'Dream']), 
-                         'one World one Dream')
-        self.assertEqual(string_utils.replace_each('one world one dream', None, None), 
-                         'one world one dream')
+        self.assertEqual(string_utils.replace_each('one world one dream', ['one', 'world', 'dream'], ['One', 'World', 'Dream']), 'One World One Dream')
+        self.assertEqual(string_utils.replace_each('one world one dream', [None, 'world', 'dream'], ['One', 'World', 'Dream']), 'one World one Dream')
+        self.assertEqual(string_utils.replace_each('one world one dream', None, None), 'one world one dream')
         
+    def test_match(self):
         
+        text = text_file.read('test_file/data_access')
+        
+        def match_date(text):
+            
+            result = []
+            for line in text:
+                items = string_utils.split(line, ';')
+                if items != None and len(items) == 5:
+                    date = items[0]
+                    _, _, day = date.split('-')
+                    if int(day) >= 1 and int(day) <=15:
+                        result.append(line)
+            
+            if len(result) > 0:
+                return result
+            else:
+                return None
+        
+        rule_list = [match_date, '.*192.168.23.(\d+).*', '.*(OM_WF_RECEPTION_WAITING|IB_WL_BINDDEALRES).*']
+        result = string_utils.text_filter(text, rule_list)
+        
+        self.assertEqual(len(result), 4)   
+
+if __name__ == '__main__':
+    # import sys;sys.argv = ['', 'Test.testName']
+    unittest.main()
     

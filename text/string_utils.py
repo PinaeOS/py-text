@@ -1,6 +1,7 @@
 # coding=utf-8
 
 import types
+import grep
 
 def is_blank(string):
     return True if string == None else False
@@ -351,3 +352,14 @@ def replace_each(string, search_list, replacement_list):
             
     return string
         
+def text_filter(text, rule_list):
+    if is_blank(text) or rule_list == None:
+        return None
+    
+    for rule in rule_list:  
+        if type(rule) == types.FunctionType:
+            text = rule(text)
+        else:
+            text = grep.grep(text, rule)
+
+    return text
