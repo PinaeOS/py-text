@@ -1,16 +1,23 @@
 py-text
-=======
+============================================
+
 A suite text tools for python
 
 Installation
-------------
+--------------
+
 The lastest stable is py-text-1.2.tar.gz
+
+.. code-block:: shell
 
     python setup.py install
     
-## Getting Start ##
+Getting Start
+--------------
 
 awk demo for py-text:
+
+.. code-block:: python
 
 	from text import awk
 	data = ['root:x:0:0:root:/root:/bin/bash',
@@ -23,6 +30,8 @@ awk demo for py-text:
 
 string_utils demo for py-text:
 
+.. code-block:: python
+
 	from text import string_util
 	print 'substring_before : ' + string_utils.substring_before('one world one dream', 'one dream').strip() + '\n'
 	print 'abbreviate : ' + string_utils.abbreviate('abcdef', 3, 3) + '\n'
@@ -34,19 +43,22 @@ string_utils demo for py-text:
 
 regex_utils demo for py-text:
 
+.. code-block:: python
+
 	from text import regex_util
 	print 'check_line : ' + regex_utils.check_line('.*(\d+.\d+.\d+.\d+)', 'MyIP is 192.168.199.4') + '\n'
 	print 'parse_line : ' + str(regex_utils.parse_line('name=(\S+), type=(\S+)', 'name=ASA5505, type=Firewall)) + '\n'
 
 	check_line : True
 	parse_line : ['ASA5505', 'Firewall']
-	
+
 Documentation
-------------
+--------------
 
 Full documentation is hosted on [HERE](). 
-Sources are available in the `docs/` directory.
+Sources are available in the ``docs/`` directory.
 
 License
--------
+--------------
+
 py-text is licensed under the Apache License, Version 2.0. See LICENSE for full license text

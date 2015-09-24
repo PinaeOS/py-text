@@ -1,0 +1,4 @@
+graft text
+graft text_test
+include *.md *.rst *.cfg
+global-exclude *.pyc
