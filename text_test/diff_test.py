@@ -7,8 +7,8 @@ from text import text_file
 class DiffTest(unittest.TestCase):
     
     def test_compare_text(self):
-        diff_text_src = text_file.read('test_file/diff_text_src')
-        diff_text_dst = text_file.read('test_file/diff_text_dst')
+        diff_text_src = text_file.read_file('test_file/diff_text_src')
+        diff_text_dst = text_file.read_file('test_file/diff_text_dst')
         
         result = diff.compare_text(diff_text_src, diff_text_dst)
         summary = diff.stat_compare(result)
@@ -23,8 +23,8 @@ class DiffTest(unittest.TestCase):
         self.assertEqual(len(dst_text), 9)
     
     def test_diff_text(self):
-        diff_text_src = text_file.read('test_file/diff_text_src')
-        diff_text_dst = text_file.read('test_file/diff_text_dst')
+        diff_text_src = text_file.read_file('test_file/diff_text_src')
+        diff_text_dst = text_file.read_file('test_file/diff_text_dst')
                 
         result = diff.diff_text(diff_text_src, diff_text_dst)
         self.assertEqual(len(result), 6) #equal:3, delete:1, insert:1, replace:1
