@@ -34,8 +34,17 @@ class GrepTest(unittest.TestCase):
         group_data = grep.grep(log_list, None, True, 'e')
         self.assertEqual(len(group_data), 19)
         
+        group_data = grep.grep(log_list, grep_action, True, 'a')
+        self.assertEqual(len(group_data), 3)
+        
         group_data = grep.grep(None, None)
         self.assertEqual(group_data, None)
+        
+        
+def grep_action(line_text):
+    if 'cron' in line_text:
+        return True
+    return False
         
 if __name__ == '__main__':
     # import sys;sys.argv = ['', 'Test.testName']

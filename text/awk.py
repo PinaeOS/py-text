@@ -12,7 +12,7 @@ def awk(target, pattern, separator, action):
     @param target: string list or text file name
     @param pattern: regex pattern
     @param separator: line separator
-    @param action: column index list or function
+    @param action: column index list or function: str[]=action(str[])
     
     @summary: list= ['1:huiyugeng:male', '2:zhuzhu:male']
               print awk.awk(list, '', ':', [1])
