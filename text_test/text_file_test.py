@@ -12,6 +12,9 @@ class TextFileTest(unittest.TestCase):
         text = text_file.read_file('test_file/log_data')
         self.assertEqual(len(text), 19)
         
+        text = text_file.read_file('test_file/log_data', 5)
+        self.assertEqual(len(text), 5)
+        
     def test_list_dir(self):
         file_filter = FileFilter(['linux.*', 'regex.*'])
         file_list = text_file.list_dir('test_file', file_filter)

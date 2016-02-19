@@ -6,7 +6,7 @@ import codecs
 from text import string_utils
 from text import regex_utils
 
-def read_file(filename, encoding = 'utf-8'):
+def read_file(filename, tail= 'all', encoding = 'utf-8'):
     if filename == None:
         return None
     
@@ -14,6 +14,12 @@ def read_file(filename, encoding = 'utf-8'):
     try:   
         text_file = codecs.open(filename, 'r', encoding)
         text = [line.strip() for line in text_file.readlines() if line != '']
+        if tail != None and tail != 'all':
+            if string_utils.is_numeric(tail):
+                _tail = int(tail)
+                _size = len(text)
+                if _tail < _size:
+                    text = text[_size - _tail : _size]
         text_file.close()
     except IOError:
         text = None
