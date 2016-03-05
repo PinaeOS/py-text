@@ -93,7 +93,7 @@ def __split_region(pattern):
 
 def __print(line, text, number):
     if number:
-        return (str(line) + ':' + text.strip())
+        return str(line) + ':' + text.strip()
     else:
         return text.strip()
     

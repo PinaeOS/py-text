@@ -18,7 +18,7 @@ def sed(target, pattern, match_model, replace, operate, output):
     @prarm output: : rl: return as list , rt: return as string , p: print screen, w: write to file
     
     '''
-    text = text_file.read(target)
+    text = text_file.read_file(target)
     if text == None:
         return None
     
