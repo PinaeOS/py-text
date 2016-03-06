@@ -1,6 +1,8 @@
 # coding=utf-8
 
 import os.path
+import sys
+import getopt
 
 import text_file
 import regex_utils
@@ -126,3 +128,31 @@ def edit(script_file, encoding = 'utf8'):
             content = [line for line in content if line != None]
             text_file.write_file(filename, content, encoding, '')
 
+   
+def exec_cmd(argv):
+    try:
+        script = None
+        encoding = None
+        if len(argv) > 2:
+            opts, _ = getopt.getopt(argv[2:], 'hs:e:', ['help', '--script', '--encoding'])
+            for name, value in opts:
+                if name in ('-h', '--help'):
+                    show_help()
+                if name in ('-s', '--script'):
+                    script = value
+                if name in ('-e', '--encoding'):
+                    encoding = value
+                    
+            if str_utils.is_empty(script) or not os.path.exists(script):
+                print 'error : could not find script file : ' + script
+                sys.exit()
+            if str_utils.is_empty(encoding):
+                encoding = 'utf8'
+            edit(script, encoding)
+        else:
+            show_help()
+    except:
+        pass
+
+def show_help():
+    pass

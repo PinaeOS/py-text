@@ -1,9 +1,12 @@
 # coding=utf-8
 
+import os.path 
+import sys
+import getopt  
 import types
 
-import grep
-import string_utils
+from text import grep
+from text import string_utils as str_utils
 
 def awk(target, pattern, separator, action):
     '''
@@ -24,20 +27,20 @@ def awk(target, pattern, separator, action):
     if text == None:
         return None
     
-    if string_utils.is_blank(separator):
+    if str_utils.is_blank(separator):
         separator = ' '
     
     result = []
         
     for line in text:
         if line != None and separator in line:
-            split_text = string_utils.split(line, separator)
+            split_text = str_utils.split(line, separator)
             if action == None:
                 result.append(split_text)
             elif type(action) == types.ListType:
                 temp_line = []
                 for column in action:
-                    if string_utils.is_numeric(column):
+                    if str_utils.is_numeric(column):
                         temp_line.append(split_text[column])
                 result.append(temp_line)
             elif type(action) == types.FunctionType:
@@ -46,4 +49,40 @@ def awk(target, pattern, separator, action):
                     result.append(temp_line)
                 
     return result
-    
+
+def exec_cmd(argv):
+    try:
+        filename = None
+        pattern = None
+        separator = ' '
+        columns = None
+        
+        if len(argv) > 2:
+            opts, _ = getopt.getopt(argv[2:],'hf:p:s:c:', ['help', '--file', '--pattern', '--separator', '--column'])
+            for name, value in opts:
+                if name in ('-h', '--help'):
+                    show_help()
+                if name in ('-f', '--file'):
+                    filename = value
+                if name in ('-p', '--pattern'):
+                    pattern = value
+                if name in ('-s', '--separator'):
+                    separator = value
+                if name in ('-c', '--column'):
+                    if value != None:
+                        columns = [int(c) for c in value.split(',') if str_utils.is_numeric(c.strip())]
+                    
+            if str_utils.is_empty(filename) or not os.path.exists(filename):
+                print 'error : could not find file : ' + filename
+                sys.exit()
+            if str_utils.is_empty(pattern):
+                print 'error : pattern is empty'
+                sys.exit()
+            print awk(filename, pattern, separator, columns)
+        else:
+            show_help()
+    except:
+        pass
+
+def show_help():
+    pass   

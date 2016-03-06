@@ -1,10 +1,13 @@
 # coding=utf-8
 
+import os.path 
+import sys
+import getopt  
 import types
 
 import text_file
 import regex_utils
-import string_utils
+import string_utils as str_utils
 
 def grep(target, pattern, number = False, model = 'e'):
     '''
@@ -46,10 +49,10 @@ def grep(target, pattern, number = False, model = 'e'):
 
 def __match(line_num, line_text, model, pattern):
     
-    if string_utils.is_blank(line_text):
+    if str_utils.is_blank(line_text):
         return False
     
-    if string_utils.is_blank(pattern):
+    if str_utils.is_blank(pattern):
         return True
     
     patterns = []
@@ -60,7 +63,7 @@ def __match(line_num, line_text, model, pattern):
     else:
         patterns = [str(pattern)]
     
-    if string_utils.is_empty(model) :
+    if str_utils.is_empty(model) :
         model = 's'
     model = model.lower()
     
@@ -96,4 +99,40 @@ def __print(line, text, number):
         return str(line) + ':' + text.strip()
     else:
         return text.strip()
-    
+
+ 
+def exec_cmd(argv):
+    try:
+        filename = None
+        pattern = None
+        number = False
+        model = 'e'
+        
+        if len(argv) > 2:
+            opts, _ = getopt.getopt(argv[2:],'hf:p:nm:', ['help', '--file', '--pattern', '--number', '--model'])
+            for name, value in opts:
+                if name in ('-h', '--help'):
+                    show_help()
+                if name in ('-f', '--file'):
+                    filename = value
+                if name in ('-p', '--pattern'):
+                    pattern = value
+                if name in ('-n', '--number'):
+                    number = True
+                if name in ('-m', '--model'):
+                    model = value
+                    
+            if str_utils.is_empty(filename) or not os.path.exists(filename):
+                print 'error : could not find file : ' + filename
+                sys.exit()
+            if str_utils.is_empty(pattern):
+                print 'error : pattern is empty'
+                sys.exit()
+            print grep(filename, pattern, number, model)
+        else:
+            show_help()
+    except:
+        pass
+
+def show_help():
+    pass

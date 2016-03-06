@@ -1,10 +1,13 @@
 # coding=utf-8
 
+import os.path 
+import sys
+import getopt  
 import types
 
-import text_file
-import grep
-from text import string_utils
+from text import text_file
+from text import grep
+from text import string_utils as str_utils
 
 def sed(target, pattern, match_model, replace, operate, output):
     '''
@@ -29,19 +32,19 @@ def sed(target, pattern, match_model, replace, operate, output):
 
         if grep.__match(line_num, line, match_model, pattern):
             if operate == 's':
-                if string_utils.is_not_blank(replace):
+                if str_utils.is_not_blank(replace):
                     result.append(replace)
                 else:
                     result.append(line)
             elif operate == 'd':
                 continue
             elif operate == 'i':
-                if string_utils.is_not_blank(replace):
+                if str_utils.is_not_blank(replace):
                     result.append(replace)
                 result.append(line)
             elif operate == 'a':
                 result.append(line)
-                if string_utils.is_not_blank(replace):
+                if str_utils.is_not_blank(replace):
                     result.append(replace)
         else:
             result.append(line)
@@ -59,3 +62,55 @@ def sed(target, pattern, match_model, replace, operate, output):
     elif output == 'rt':
         return output_result
     
+def exec_cmd(argv):
+    try:
+        filename = None
+        pattern = None
+        replace = None
+        action = None
+        output = 'rt'
+        
+        if len(argv) > 2:
+            opts, _ = getopt.getopt(argv[2:],'hf:p:m:r:a:o:', ['help', '--file', '--pattern', '--replace', '--action', '--output'])
+            for name, value in opts:
+                if name in ('-h', '--help'):
+                    show_help()
+                if name in ('-f', '--file'):
+                    filename = value
+                if name in ('-p', '--pattern'):
+                    pattern = value
+                if name in ('-r', '--replace'):
+                    replace = value
+                if name in ('-a', '--action'):
+                    action = value
+                if name in ('-o', '--output'):
+                    output = value
+                    
+            if str_utils.is_empty(filename) or not os.path.exists(filename):
+                print 'error : could not find file : ' + filename
+                sys.exit()
+            if str_utils.is_empty(pattern):
+                print 'error : pattern is empty'
+                sys.exit()
+            if str_utils.is_empty(action):
+                print 'error : action is Empty'
+                sys.exit()
+            if action in ['s', 'i', 'a'] and str_utils.is_empty(replace):
+                print 'error : replace content is Empty'
+                sys.exit()
+                
+            result = sed(filename, pattern, replace, action, output)
+            if output == 'rt':
+                print result
+            elif output == 'rl':
+                if result != None and isinstance(result, list):
+                    for line in result:
+                        print line
+                
+        else:
+            show_help()
+    except:
+        pass
+
+def show_help():
+    pass 
