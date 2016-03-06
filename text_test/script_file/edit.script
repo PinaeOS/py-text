@@ -1,0 +1,16 @@
+[test_file/interface_config_bak]
+
+# Delete Comment line
+D:/1-3, 4, 8/
+
+# Update eth0 to static
+U:iface eth0.*->iface eth0 inet static
+A:iface eth0 inet static->[:ht]address 192.168.228.31[:lf][:ht]netmask 255.255.255.0[:lf][:ht]gateway 192.168.228.2
+
+# Add eth1 to dhcp
+A:[:end]->[:lf]
+A:[:end]->auto eth1[:lf]iface eth1 inet dhcp
+
+# Add header
+A:[:start]-># network interface config
+A:/2/->[:lf]

@@ -6,14 +6,14 @@ import codecs
 from text import string_utils
 from text import regex_utils
 
-def read_file(filename, tail= 'all', encoding = 'utf-8'):
+def read_file(filename, tail= 'all', encoding = 'utf-8', strip = False):
     if filename == None:
         return None
     
     text = []
     try:   
         text_file = codecs.open(filename, 'r', encoding)
-        text = [line.strip() for line in text_file.readlines() if line != '']
+        text = [line.strip() if strip else line for line in text_file.readlines()]
         if tail != None and tail != 'all':
             if string_utils.is_numeric(tail):
                 _tail = int(tail)
@@ -26,18 +26,16 @@ def read_file(filename, tail= 'all', encoding = 'utf-8'):
 
     return text
 
-def write_file(filename, text, encoding = 'utf-8'):
+def write_file(filename, text, encoding = 'utf-8', end_of_line = '\n'):
     
     try:
         text_file = codecs.open(filename, 'w', encoding)
         
         if type(text) == types.ListType:
             for line in text:
-                if string_utils.is_not_empty(line):
-                    text_file.write(line + '\n')
+                text_file.write(line + end_of_line)
         elif type(text) == types.StringType:
-            if string_utils.is_not_empty(text):
-                text_file.write(text + '\n')
+            text_file.write(text)
             
         text_file.close()
     except IOError:
