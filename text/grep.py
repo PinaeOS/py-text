@@ -2,8 +2,10 @@
 
 import os.path 
 import sys
-import getopt  
 import types
+
+import getopt 
+from getopt import GetoptError
 
 import text_file
 import regex_utils
@@ -128,11 +130,17 @@ def exec_cmd(argv):
             if str_utils.is_empty(pattern):
                 print 'error : pattern is empty'
                 sys.exit()
-            print grep(filename, pattern, number, model)
+                
+            result = grep(filename, pattern, number, model)
+            if result != None and isinstance(result, list):
+                for line in result:
+                    print line
         else:
             show_help()
-    except:
-        pass
+    except GetoptError, e:
+        print 'error : ' + e.msg
+    except Exception, e:
+        print 'error : ' + e.message
 
 def show_help():
     pass

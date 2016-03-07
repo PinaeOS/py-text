@@ -2,7 +2,9 @@
 
 import os.path
 import sys
+
 import getopt
+from getopt import GetoptError
 
 import text_file
 import regex_utils
@@ -107,7 +109,7 @@ def __split_arg(cmd_arg, content):
     value = cmd_arg[idx_arg + 2 :]
     return line_nums, value
 
-def edit(script_file, encoding = 'utf8'):
+def edit(script_file, encoding = 'utf8', output = 'w'):
     cmd_set = __read_script(script_file)
     for filename in cmd_set:
         if os.path.exists(filename):
@@ -126,15 +128,20 @@ def edit(script_file, encoding = 'utf8'):
                         content = __add(cmd_arg, content)
                         
             content = [line for line in content if line != None]
-            text_file.write_file(filename, content, encoding, '')
+            if output == 'w':
+                text_file.write_file(filename, content, encoding, '')
+            else:
+                print ''.join(content)
 
    
 def exec_cmd(argv):
     try:
         script = None
-        encoding = None
+        encoding = 'utf8'
+        output = 'w'
+        
         if len(argv) > 2:
-            opts, _ = getopt.getopt(argv[2:], 'hs:e:', ['help', '--script', '--encoding'])
+            opts, _ = getopt.getopt(argv[2:], 'hs:e:o:', ['help', '--script', '--encoding', '--output'])
             for name, value in opts:
                 if name in ('-h', '--help'):
                     show_help()
@@ -142,17 +149,19 @@ def exec_cmd(argv):
                     script = value
                 if name in ('-e', '--encoding'):
                     encoding = value
+                if name in ('-o', '--output'):
+                    output = value
                     
             if str_utils.is_empty(script) or not os.path.exists(script):
                 print 'error : could not find script file : ' + script
                 sys.exit()
-            if str_utils.is_empty(encoding):
-                encoding = 'utf8'
-            edit(script, encoding)
+            edit(script, encoding, output)
         else:
             show_help()
-    except:
-        pass
+    except GetoptError, e:
+        print 'error : ' + e.msg
+    except Exception, e:
+        print 'error : ' + e.message
 
 def show_help():
     pass

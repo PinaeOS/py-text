@@ -1,9 +1,11 @@
 # coding=utf-8
 
 import os.path 
-import sys
-import getopt  
+import sys 
 import types
+
+import getopt 
+from getopt import GetoptError
 
 from text import grep
 from text import string_utils as str_utils
@@ -75,14 +77,14 @@ def exec_cmd(argv):
             if str_utils.is_empty(filename) or not os.path.exists(filename):
                 print 'error : could not find file : ' + filename
                 sys.exit()
-            if str_utils.is_empty(pattern):
-                print 'error : pattern is empty'
-                sys.exit()
+                
             print awk(filename, pattern, separator, columns)
         else:
             show_help()
-    except:
-        pass
+    except GetoptError, e:
+        print 'error : ' + e.msg
+    except Exception, e:
+        print 'error : ' + e.message
 
 def show_help():
     pass   

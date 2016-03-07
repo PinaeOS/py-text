@@ -2,8 +2,11 @@
 
 import os.path 
 import sys
-import getopt  
 import types
+
+import getopt
+from getopt import GetoptError
+
 
 from text import text_file
 from text import grep
@@ -50,7 +53,7 @@ def sed(target, pattern, match_model, replace, operate, output):
             result.append(line)
         line_num = line_num + 1
                 
-    output_result = '\n'.join(result)
+    output_result = ''.join(result)
     
     if output == 'p':
         print output_result
@@ -66,12 +69,13 @@ def exec_cmd(argv):
     try:
         filename = None
         pattern = None
+        model = 'e'
         replace = None
         action = None
         output = 'rt'
         
         if len(argv) > 2:
-            opts, _ = getopt.getopt(argv[2:],'hf:p:m:r:a:o:', ['help', '--file', '--pattern', '--replace', '--action', '--output'])
+            opts, _ = getopt.getopt(argv[2:],'hf:p:m:r:a:o:', ['help', '--file', '--pattern', '--model', '--replace', '--action', '--output'])
             for name, value in opts:
                 if name in ('-h', '--help'):
                     show_help()
@@ -79,6 +83,8 @@ def exec_cmd(argv):
                     filename = value
                 if name in ('-p', '--pattern'):
                     pattern = value
+                if name in ('-m', '--model'):
+                    model = value
                 if name in ('-r', '--replace'):
                     replace = value
                 if name in ('-a', '--action'):
@@ -99,18 +105,19 @@ def exec_cmd(argv):
                 print 'error : replace content is Empty'
                 sys.exit()
                 
-            result = sed(filename, pattern, replace, action, output)
+            result = sed(filename, pattern, model, replace, action, output)
             if output == 'rt':
                 print result
             elif output == 'rl':
                 if result != None and isinstance(result, list):
-                    for line in result:
-                        print line
+                    print ''.join(result)
                 
         else:
             show_help()
-    except:
-        pass
+    except GetoptError, e:
+        print 'error : ' + e.msg
+    except Exception, e:
+        print 'error : ' + e.message
 
 def show_help():
     pass 
