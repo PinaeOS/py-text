@@ -10,14 +10,22 @@ import text_file
 import regex_utils
 import string_utils as str_utils
 
-def __read_script(script_file, encoding = 'utf8'):
+def __read_script(script, encoding = 'utf8'):
     file_reg = '\[(.*)\]'
     cmd_reg = '(\w+)\s*:\s*(.*)'
     
     tag_file = None
     cmd_set = {}
     
-    content = text_file.read_file(script_file, 'all', encoding, True)
+    if isinstance(script, str):
+        content = text_file.read_file(script, 'all', encoding, True)
+    elif isinstance(script, list):
+        content = script
+    elif isinstance(script, dict):
+        return script
+    else:
+        raise IOError('script must be a filename or script command list')
+    
     for line in content:
         if str_utils.is_empty(line):
             continue
@@ -94,6 +102,12 @@ def __add(cmd_arg, content):
         content.insert(line_num + 1, value)
     return content
 
+def __create(filename):
+    parent_dir = os.path.dirname(filename)
+    if not os.path.exists(parent_dir):
+        os.makedirs(parent_dir)
+    open(filename, 'w').close()
+
 def __reduce_value(value):
     if value != None:
         value = value.replace('[:ht]', '\t')
@@ -109,29 +123,40 @@ def __split_arg(cmd_arg, content):
     value = cmd_arg[idx_arg + 2 :]
     return line_nums, value
 
-def edit(script_file, encoding = 'utf8', output = 'w'):
-    cmd_set = __read_script(script_file)
+def edit(script, base_path = None, encoding = 'utf8', output = 'w'):
+    cmd_set = __read_script(script)
     for filename in cmd_set:
-        if os.path.exists(filename):
-            cmd_list = cmd_set.get(filename)
-            content = text_file.read_file(filename, 'all', encoding, False)
-            for cmd_item in cmd_list:
-                cmd = cmd_item[0].strip()
-                cmd_arg = cmd_item[1].strip()
-                if str_utils.is_not_empty(cmd):
-                    cmd = cmd.lower()
-                    if cmd == 'd':
-                        content = __delete(cmd_arg, content)
-                    elif cmd == 'u':
-                        content = __update(cmd_arg, content)
-                    elif cmd == 'a':
-                        content = __add(cmd_arg, content)
-                        
-            content = [line for line in content if line != None]
-            if output == 'w':
-                text_file.write_file(filename, content, encoding, '')
+        if str_utils.is_empty(filename):
+            continue
+        cmd_list = cmd_set.get(filename)
+        if str_utils.is_not_empty(base_path):
+            if filename.startswith('/'):
+                filename = base_path + filename
             else:
-                print ''.join(content)
+                filename = os.path.join(base_path, filename)
+        if os.path.exists(filename):
+            if os.path.isdir(filename):
+                continue
+        else:
+            __create(filename)
+        content = text_file.read_file(filename, 'all', encoding, False)
+        for cmd_item in cmd_list:
+            cmd = cmd_item[0].strip()
+            cmd_arg = cmd_item[1].strip()
+            if str_utils.is_not_empty(cmd):
+                cmd = cmd.lower()
+                if cmd == 'd':
+                    content = __delete(cmd_arg, content)
+                elif cmd == 'u':
+                    content = __update(cmd_arg, content)
+                elif cmd == 'a':
+                    content = __add(cmd_arg, content)
+                        
+        content = [line for line in content if line != None]
+        if output == 'w':
+            text_file.write_file(filename, content, encoding, '')
+        else:
+            print ''.join(content)
 
    
 def exec_cmd(argv):
