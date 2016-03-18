@@ -8,7 +8,7 @@ def is_blank(string):
 def is_empty(string):
     if string == None:
         return True
-    string = str(string)
+    string = to_string(string)
     if string == '':
         return True
     string = string.strip()
@@ -30,7 +30,7 @@ def is_numeric(string):
 def is_bool(string):
     if is_blank(string):
         return False
-    string = str(string).lower()
+    string = to_string(string).lower()
     if string == 'true' or string == 'false':
         return True
     else:
@@ -40,31 +40,31 @@ def index_of(string, search_str):
     if is_blank(string) or is_blank(search_str):
         return -1
     
-    string = str(string)
-    search_str = str(search_str)
+    string = to_string(string)
+    search_str = to_string(search_str)
     
     if search_str in string:
-        return str(string).index(str(search_str))
+        return to_string(string).index(search_str)
     else:
         return -1
 
 def index_of_any(string, search_strs):
     if is_blank(string):
         return -1
-    string = str(string)
+    string = to_string(string)
     if search_strs != None and type(search_strs) == types.ListType:
         for search_str in search_strs:
             if is_blank(search_str):
                 continue
-            if str(search_str) in string:
+            if to_string(search_str) in string:
                 return string.index(search_str)
     return -1
 
 def index_of_ignore_case(string, search_str):
     if is_blank(string) or is_blank(search_str):
         return -1
-    string = str(string).lower()
-    search_str = str(search_str).lower()
+    string = to_string(string).lower()
+    search_str = to_string(search_str).lower()
     if search_str in string:
         return string.index(search_str)
     return -1
@@ -73,8 +73,8 @@ def index_of_ignore_case(string, search_str):
 def last_index_of(string, search_str):
     if is_blank(string) or is_blank(search_str):
         return -1
-    string = str(string)
-    search_str = str(search_str)
+    string = to_string(string)
+    search_str = to_string(search_str)
     if search_str in string:
         return string.rindex(search_str)
     else:
@@ -84,7 +84,7 @@ def left(string, length):
     if is_numeric(length):
         if is_blank(string): 
             return None
-        string = str(string)
+        string = to_string(string)
         if len(string) <= length:
             return string
         return string[: length]
@@ -94,7 +94,7 @@ def right(string, length):
     if is_numeric(length):
         if is_blank(string): 
             return None
-        string = str(string)
+        string = to_string(string)
         if len(string) <= length:
             return string
         return string[len(string) - length: ]
@@ -104,7 +104,7 @@ def mid(string, start, length):
     if is_numeric(start) and is_numeric(length):
         if is_blank(string): 
             return None
-        string = str(string)
+        string = to_string(string)
         if len(string) <= start:
             return string
         end_pos = start + length
@@ -135,7 +135,7 @@ def repeat(string, repeat_count):
 def abbreviate(string, offset, max_width, pad = '*'):
     if is_blank(string):
         return None
-    string = str(string)
+    string = to_string(string)
     if len(string) <= offset:
         return string
     if len(string) - offset < max_width:
@@ -145,8 +145,8 @@ def abbreviate(string, offset, max_width, pad = '*'):
 def count_matches(string, search_str):
     if is_blank(string) or is_blank(search_str):
         return 0
-    string = str(string)
-    search_str = str(search_str)
+    string = to_string(string)
+    search_str = to_string(search_str)
     return string.count(search_str)
 
 def remove_pattern(string, regex):
@@ -155,12 +155,12 @@ def remove_pattern(string, regex):
 def remove_end(string, search_str):
     if is_blank(string):
         return None
-    string = str(string)
+    string = to_string(string)
     if is_blank(search_str):
         return string
     
-    string = str(string)
-    search_str = str(search_str)
+    string = to_string(string)
+    search_str = to_string(search_str)
     index = last_index_of(string, search_str)
     
     return string[ :index] + string[index + len(search_str):] if index != -1 else string
@@ -168,12 +168,12 @@ def remove_end(string, search_str):
 def remove_start(string, search_str):
     if is_blank(string):
         return None
-    string = str(string)
+    string = to_string(string)
     if is_blank(search_str):
         return string
     
-    string = str(string)
-    search_str = str(search_str)
+    string = to_string(string)
+    search_str = to_string(search_str)
     index = index_of(string, search_str)
     
     return string[ :index] + string[index + len(search_str):] if index != -1 else string
@@ -183,7 +183,7 @@ def split(string, separator):
         return None
     
     result = []
-    split_list = str(string).split(separator)
+    split_list = to_string(string).split(separator)
     for item in split_list:
         if is_not_empty(item):
             result.append(item.strip())
@@ -196,7 +196,7 @@ def strip_all(strings):
     result = []
     for string in strings:
         if is_not_blank(string):
-            result.append(str(string).strip())
+            result.append(to_string(string).strip())
         else:
             result.append(None)
     return result
@@ -204,7 +204,7 @@ def strip_all(strings):
 def substring_after(string, tag):
     if is_blank(string):
         return None
-    string = str(string)
+    string = to_string(string)
     if is_blank(tag):
         return string
     index = index_of(string, tag)
@@ -216,7 +216,7 @@ def substring_after(string, tag):
 def substring_after_last(string, tag):
     if is_blank(string):
         return None
-    string = str(string)
+    string = to_string(string)
     if is_blank(tag):
         return string
     index = last_index_of(string, tag)
@@ -228,7 +228,7 @@ def substring_after_last(string, tag):
 def substring_before(string, tag):
     if is_blank(string):
         return None
-    string = str(string)
+    string = to_string(string)
     if is_blank(tag):
         return string
     index = index_of(string, tag)
@@ -240,7 +240,7 @@ def substring_before(string, tag):
 def substring_before_last(string, tag):
     if is_blank(string):
         return None
-    string = str(string)
+    string = to_string(string)
     if is_blank(tag):
         return string
     index = last_index_of(string, tag)
@@ -293,7 +293,7 @@ def contains_any(string, search_strs):
             if result:
                 return result
     else:
-        return contains(string, str(search_strs))
+        return contains(string, to_string(search_strs))
     return False
 
 def contains(string, search_str):
@@ -304,10 +304,12 @@ def contains(string, search_str):
 def to_string(string):
     if is_blank(string):
         return None
+    if isinstance(string, unicode):
+        return string
     return str(string)
 
 def reverse(string):
-    char_list = str(string).split()
+    char_list = to_string(string).split()
     char_list = char_list.reverse()
     return ''.join(char_list)
 
@@ -315,12 +317,12 @@ def replace_all(string, search_str, replacement):
     if is_blank(string):
         return None
     
-    string = str(string)
+    string = to_string(string)
     if is_blank(search_str) or is_blank(replacement):
         return string
     
-    search_str = str(search_str)
-    replacement = str(replacement)
+    search_str = to_string(search_str)
+    replacement = to_string(replacement)
     
     return string.replace(search_str, replacement)
     
@@ -328,7 +330,7 @@ def replace_all(string, search_str, replacement):
 def replace_each(string, search_list, replacement_list):
     if is_blank(string):
         return None
-    string = str(string)
+    string = to_string(string)
     
     if search_list == None or replacement_list == None:
         return string
@@ -344,8 +346,8 @@ def replace_each(string, search_list, replacement_list):
             if is_blank(search_str) or is_blank(replacement):
                 continue
             
-            search_str = str(search_str)
-            replacement = str(replacement)
+            search_str = to_string(search_str)
+            replacement = to_string(replacement)
             
             string = string.replace(search_str, replacement)
             
