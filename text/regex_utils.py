@@ -27,6 +27,12 @@ def check_line(regex, line):
         return True
     else:
         return False
+    
+def match(regex, line):
+    return check_line(regex, line)
+
+def group(regex, line):
+    return parse_line(regex, line)
 
 def sub(regex, repl, line, count = 0):
     if line == None:
