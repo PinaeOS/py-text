@@ -6,11 +6,11 @@ import unittest
 
 class OsUtilsTest(unittest.TestCase):
     
-    def test_exec_cmd(self):
-        os_type = os_utils.get_os_type()
+    def test_run(self):
+        os_type = os_utils.os_type()
         if os_type == 'windows':
-            output = os_utils.exe_cmd('ver', 'gbk', True)
+            output = os_utils.run('ver', 'gbk', True)
         elif os_type == 'linux':
-            output = os_utils.exe_cmd('uname -a', 'utf-8', True)
+            output = os_utils.run('uname -a', 'utf-8', True)
         for line in output:
             print line
