@@ -10,7 +10,16 @@ def check_os(os_list):
         def wrapper(*args, **kwargs):
             os_t = os_type()
             if os_t not in os_list:
-                    raise ValueError('Not Support :' + os_t)
+                raise ValueError('Not Support :' + os_t)
+            return func( *args , **kwargs)
+        return wrapper
+    return decorators
+
+def check_file(filename):
+    def decorators(func):
+        def wrapper(*args, **kwargs):
+            if filename == None or not os.path.exists(filename):
+                raise IOError('File not exists :' + filename)
             return func( *args , **kwargs)
         return wrapper
     return decorators
@@ -34,6 +43,7 @@ def os_type():
     return platform.system().lower()
 
 @check_os(['linux'])
+@check_file('/proc/cpuinfo')
 def cpu():    
     nprocs = 0
     cpu_info = {}
@@ -54,6 +64,7 @@ def cpu():
     return cpu_info
 
 @check_os(['linux'])
+@check_file('/proc/meminfo')
 def memory():
     mem_info = {}
     with open('/proc/meminfo') as f:
