@@ -5,6 +5,16 @@ import platform
 
 from text import string_utils
 
+def check_os(os_list):
+    def decorators(func):
+        def wrapper(*args, **kwargs):
+            os_t = os_type()
+            if os_t not in os_list:
+                    raise ValueError('Not Support :' + os_t)
+            return func( *args , **kwargs)
+        return wrapper
+    return decorators
+
 def run(cmd, decoding = None, clean = False):
     if string_utils.is_not_empty(cmd):
         result = []
@@ -23,13 +33,8 @@ def run(cmd, decoding = None, clean = False):
 def os_type():
     return platform.system().lower()
 
-def hostname():
-    return platform.node()
-
-def cpu():
-    if os_type != 'linux':
-        raise IOError('Not support ' + os_type)
-    
+@check_os(['linux'])
+def cpu():    
     nprocs = 0
     cpu_info = {}
     proc_info = {}
@@ -48,12 +53,12 @@ def cpu():
                     proc_info[line.split(':')[0].strip()] = ''
     return cpu_info
 
+@check_os(['linux'])
 def memory():
-    if os_type != 'linux':
-        raise IOError('Not support ' + os_type)
-    
     mem_info = {}
     with open('/proc/meminfo') as f:
         for line in f:
             mem_info[line.split(':')[0]] = line.split(':')[1].strip()
     return mem_info
+
+
