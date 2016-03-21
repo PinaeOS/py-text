@@ -151,6 +151,8 @@ def edit(script, base_path = None, encoding = 'utf8', output = 'w'):
                     content = __update(cmd_arg, content)
                 elif cmd == 'a':
                     content = __add(cmd_arg, content)
+                elif cmd == 'c':
+                    content = []
                         
         content = [line for line in content if line != None]
         if output == 'w':
