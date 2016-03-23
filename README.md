@@ -41,6 +41,28 @@ regex_utils demo for py-text:
 	check_line : True
 	parse_line : ['ASA5505', 'Firewall']
 	
+edit demo for py-text:
+
+edit script:
+
+	[test_file/interface_config]
+	# Delete Comment line
+	D:/1-3, 4, 8/
+	# Update eth0 to static
+	U:iface eth0.*->iface eth0 inet static
+	# Add eth1 to dhcp
+	A:[:end]->[:lf]
+	A:[:end]->auto eth1[:lf]iface eth1 inet dhcp
+	# Add header
+	A:[:start]-># network interface config
+	# Add Footer
+	N:# end of config
+
+program:
+
+	from edit import edit
+	edit.edit('script_file/edit.script')
+	
 Documentation
 ------------
 
