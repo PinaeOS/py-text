@@ -140,6 +140,7 @@ def edit(script, base_path = None, encoding = 'utf8', output = 'w'):
         else:
             __create(filename)
         content = text_file.read_file(filename, 'all', encoding, False)
+        content = content if content else []
         for cmd_item in cmd_list:
             cmd = cmd_item[0].strip()
             cmd_arg = cmd_item[1].strip()
@@ -151,6 +152,9 @@ def edit(script, base_path = None, encoding = 'utf8', output = 'w'):
                     content = __update(cmd_arg, content)
                 elif cmd == 'a':
                     content = __add(cmd_arg, content)
+                elif cmd == 'n':
+                    value = __reduce_value(cmd_arg)
+                    content.append(value)
                 elif cmd == 'c':
                     content = []
                         

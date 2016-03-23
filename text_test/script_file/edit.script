@@ -14,3 +14,6 @@ A:[:end]->auto eth1[:lf]iface eth1 inet dhcp
 # Add header
 A:[:start]-># network interface config
 A:/2/->[:lf]
+
+# Add Footer
+N:# end of config

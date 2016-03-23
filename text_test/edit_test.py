@@ -23,6 +23,7 @@ class EditTest(unittest.TestCase):
         self.assertTrue('iface eth1 inet dhcp\n' in content)
         
         self.assertEquals('# network interface config\n', content[0])
+        self.assertEquals('# end of config\n', content[len(content) - 1])
         
         os.remove('test_file/interface_config_bak')
         
