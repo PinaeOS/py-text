@@ -2,7 +2,6 @@
 
 import os.path 
 import sys
-import types
 
 import getopt
 from getopt import GetoptError
@@ -58,7 +57,7 @@ def sed(target, pattern, match_model, replace, operate, output):
     if output == 'p':
         print output_result
     elif output == 'w':
-        if type(target) == types.StringType:
+        if isinstance(target, str) or isinstance(target, unicode):
             text_file.write_file(target, output_result)
     elif output == 'rl':
         return result

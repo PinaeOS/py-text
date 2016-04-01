@@ -1,20 +1,19 @@
 # coding=utf-8
 
 import os
-import types
 import codecs
 from text import string_utils
 from text import regex_utils
 
 def read_file(filename, tail= 'all', encoding = 'utf-8', strip = False):
-    if filename == None:
+    if filename:
         return None
     
     text = []
     try:   
         text_file = codecs.open(filename, 'r', encoding)
         text = [line.strip() if strip else line for line in text_file.readlines()]
-        if tail != None and tail != 'all':
+        if tail and tail != 'all':
             if string_utils.is_numeric(tail):
                 _tail = int(tail)
                 _size = len(text)
@@ -31,10 +30,10 @@ def write_file(filename, text, encoding = 'utf-8', end_of_line = '\n'):
     try:
         text_file = codecs.open(filename, 'w', encoding)
         
-        if type(text) == types.ListType:
+        if isinstance(text, list):
             for line in text:
                 text_file.write(line + end_of_line)
-        elif type(text) == types.StringType:
+        elif isinstance(text, str) or isinstance(text, unicode):
             text_file.write(text)
             
         text_file.close()
@@ -97,7 +96,7 @@ def size(filename):
             
 class FileFilter(object):
     def __init__(self, file_filter):
-        if file_filter != None and type(file_filter) == types.ListType:
+        if file_filter != None and isinstance(file_filter, list):
             self.file_filter = file_filter
     
     def filter(self, filename):

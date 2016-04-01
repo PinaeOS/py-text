@@ -1,6 +1,6 @@
 # coding=utf-8
 
-import types
+import types 
 
 import regex_utils
 import string_utils
@@ -46,7 +46,7 @@ def __build_map_index(rule):
 def __is_match(match, line):
     result = False
     
-    if type(match) == types.StringType:
+    if isinstance(match, str) or isinstance(match, unicode):
         if regex_utils.check_line('(\S+)\((\S+)\)', match):
             fun, value = regex_utils.parse_line('(\S+)\((\S+)\)', match)
             if fun == 'startswith':
