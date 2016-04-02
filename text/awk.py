@@ -26,7 +26,7 @@ def awk(target, pattern, separator, action):
     '''
     
     text = grep.grep(target, pattern)
-    if text == None:
+    if not text:
         return None
     
     if str_utils.is_blank(separator):
@@ -37,7 +37,7 @@ def awk(target, pattern, separator, action):
     for line in text:
         if line != None and separator in line:
             split_text = str_utils.split(line, separator)
-            if action == None:
+            if not action:
                 result.append(split_text)
             elif type(action) == types.ListType:
                 temp_line = []

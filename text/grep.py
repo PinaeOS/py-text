@@ -25,14 +25,14 @@ def grep(target, pattern, number = False, model = 'e'):
               output: ['huiyugeng', 'zhuzhu']
     '''
 
-    if type(target) == types.StringType or type(target) == types.UnicodeType:
+    if isinstance(target, basestring):
         text = text_file.read_file(target)
-    elif type(target) == types.ListType:
+    elif isinstance(target, list):
         text = target
     else:
         text = None
         
-    if text == None:
+    if not text:
         return None
         
     line_num = 1;
@@ -132,7 +132,7 @@ def exec_cmd(argv):
                 sys.exit()
                 
             result = grep(filename, pattern, number, model)
-            if result != None and isinstance(result, list):
+            if result and isinstance(result, list):
                 for line in result:
                     print line
         else:

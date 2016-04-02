@@ -6,8 +6,8 @@ from text import string_utils
 from text import regex_utils
 
 def read_file(filename, tail= 'all', encoding = 'utf-8', strip = False):
-    if filename:
-        return None
+    if string_utils.is_blank(filename):
+        raise IOError('filename is None')
     
     text = []
     try:   
@@ -26,6 +26,8 @@ def read_file(filename, tail= 'all', encoding = 'utf-8', strip = False):
     return text
 
 def write_file(filename, text, encoding = 'utf-8', end_of_line = '\n'):
+    if string_utils.is_blank(filename):
+        raise IOError('filename is None')
     
     try:
         text_file = codecs.open(filename, 'w', encoding)
@@ -33,7 +35,7 @@ def write_file(filename, text, encoding = 'utf-8', end_of_line = '\n'):
         if isinstance(text, list):
             for line in text:
                 text_file.write(line + end_of_line)
-        elif isinstance(text, str) or isinstance(text, unicode):
+        elif isinstance(text, basestring):
             text_file.write(text)
             
         text_file.close()
@@ -46,7 +48,7 @@ def list_dir(dir_path, file_filter = None):
         if os.path.isdir(dir_path):
             filename_list = os.listdir(dir_path)
             for filename in filename_list:
-                if file_filter != None and isinstance(file_filter, FileFilter):
+                if file_filter and isinstance(file_filter, FileFilter):
                     if file_filter.filter(filename):
                         file_list.append(os.path.join(dir_path, filename))
                 else:
@@ -96,7 +98,7 @@ def size(filename):
             
 class FileFilter(object):
     def __init__(self, file_filter):
-        if file_filter != None and isinstance(file_filter, list):
+        if file_filter and isinstance(file_filter, list):
             self.file_filter = file_filter
     
     def filter(self, filename):

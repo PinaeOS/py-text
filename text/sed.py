@@ -6,7 +6,6 @@ import sys
 import getopt
 from getopt import GetoptError
 
-
 from text import text_file
 from text import grep
 from text import string_utils as str_utils
@@ -24,7 +23,7 @@ def sed(target, pattern, match_model, replace, operate, output):
     
     '''
     text = text_file.read_file(target)
-    if text == None:
+    if not text:
         return None
     
     result = []
@@ -108,7 +107,7 @@ def exec_cmd(argv):
             if output == 'rt':
                 print result
             elif output == 'rl':
-                if result != None and isinstance(result, list):
+                if result and isinstance(result, list):
                     print ''.join(result)
                 
         else:

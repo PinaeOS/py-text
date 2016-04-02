@@ -7,7 +7,7 @@ import string_utils
     
 def parse(string, rule_list):
     
-    if string_utils.is_blank(string) or rule_list == None:
+    if string_utils.is_blank(string) or not rule_list:
         return None
     
     string = string.strip()
@@ -46,7 +46,7 @@ def __build_map_index(rule):
 def __is_match(match, line):
     result = False
     
-    if isinstance(match, str) or isinstance(match, unicode):
+    if isinstance(match, basestring):
         if regex_utils.check_line('(\S+)\((\S+)\)', match):
             fun, value = regex_utils.parse_line('(\S+)\((\S+)\)', match)
             if fun == 'startswith':
@@ -64,7 +64,7 @@ def __is_match(match, line):
     return result
    
 def __map_with_index(value_list, map_index):
-    if value_list == None or map_index == None:
+    if not value_list or not map_index:
         return None
     
     value_map = {}

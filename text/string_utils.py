@@ -1,12 +1,10 @@
 # coding=utf-8
 
-import types
-
 def is_blank(string):
     return True if string == None else False
 
 def is_empty(string):
-    if string == None:
+    if not string:
         return True
     string = to_string(string)
     if string == '':
@@ -52,7 +50,7 @@ def index_of_any(string, search_strs):
     if is_blank(string):
         return -1
     string = to_string(string)
-    if search_strs != None and type(search_strs) == types.ListType:
+    if search_strs and isinstance(search_strs, list):
         for search_str in search_strs:
             if is_blank(search_str):
                 continue
@@ -190,7 +188,7 @@ def split(string, separator):
     return result
 
 def strip_all(strings):
-    if strings == None or type(strings) != types.ListType:
+    if not strings or not isinstance(strings, list):
         return None
     
     result = []
@@ -267,7 +265,7 @@ def startswith(string, prefix):
     return False
 
 def startswith_any(string, prefixs):
-    if prefixs != None and type(prefixs) == types.ListType:
+    if prefixs and isinstance(prefixs, list):
         for prefix in prefixs:
             if startswith(string, prefix):
                 return True
@@ -279,7 +277,7 @@ def endswith(string, suffix):
     return False
 
 def endswith_any(string, suffixs):
-    if suffixs != None and type(suffixs) == types.ListType:
+    if suffixs and isinstance(suffixs, list):
         for suffix in suffixs:
             if endswith(string, suffix):
                 return True
@@ -287,7 +285,7 @@ def endswith_any(string, suffixs):
 def contains_any(string, search_strs):
     if is_blank(string):
         return False
-    if type(search_strs) == types.ListType:
+    if isinstance(search_strs, list):
         for search_str in search_strs:
             result = contains(string, search_str)
             if result:
@@ -304,7 +302,7 @@ def contains(string, search_str):
 def to_string(string):
     if is_blank(string):
         return None
-    if isinstance(string, unicode):
+    if isinstance(string, basestring):
         return string
     return str(string)
 
@@ -332,11 +330,11 @@ def replace_each(string, search_list, replacement_list):
         return None
     string = to_string(string)
     
-    if search_list == None or replacement_list == None:
+    if not search_list or not replacement_list:
         return string
     
-    if type(search_list) == types.ListType and \
-        type(replacement_list) == types.ListType and \
+    if isinstance(search_list, list) and \
+        isinstance(replacement_list, list) and \
         len(search_list) == len(replacement_list):
         
         for i in range(len(search_list)):

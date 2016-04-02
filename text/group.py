@@ -7,7 +7,7 @@ import string_utils
 
 def group(text, rule_list):
         
-    if string_utils.is_blank(text) or rule_list == None:
+    if string_utils.is_blank(text) or not rule_list:
         return None
         
     group_value = {}

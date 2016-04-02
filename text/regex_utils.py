@@ -3,9 +3,9 @@
 import re
 
 def parse_line(regex , line):
-    if line == None:
+    if not line:
         return None
-    if regex == None:
+    if not regex:
         return line
     
     items = []
@@ -17,9 +17,9 @@ def parse_line(regex , line):
     return items
 
 def check_line(regex, line):
-    if line == None:
+    if not line:
         return False
-    if regex == None:
+    if not regex:
         return False
     pattern = re.compile(regex)
     match = pattern.match(line)
@@ -35,15 +35,15 @@ def group(regex, line):
     return parse_line(regex, line)
 
 def sub(regex, repl, line, count = 0):
-    if line == None:
+    if not line:
         return None
-    if regex == None or repl == None:
+    if not regex or not repl:
         return line
     return re.sub(regex, repl, line, count)
 
 def split(regex, line):
-    if line == None:
+    if not line:
         return None
-    if regex == None:
+    if not regex:
         return line
     return re.split(regex, line)
